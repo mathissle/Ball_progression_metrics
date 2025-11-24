@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Ball progression metrics report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ball_progression_metrics_report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ball_progression_metrics_report_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="ball_progression_metrics_report_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="ball_progression_metrics_report_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="ball_progression_metrics_report_files/libs/quarto-html/popper.min.js"></script>
+<script src="ball_progression_metrics_report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ball_progression_metrics_report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ball_progression_metrics_report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ball_progression_metrics_report_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ball_progression_metrics_report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ball_progression_metrics_report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ball_progression_metrics_report_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Ball progression metrics report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="measuring-player-progression-via-open-data-mathis-sedira-lemaire" class="level1">
+<h1>Measuring Player Progression via Open Data — Mathis Sedira-Lemaire</h1>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>Using freely accessible FBref data covering 1,369 players with at least 1,000 league minutes across the five major European leagues in the 2024–2025 season, this project develops open and reproducible metrics to quantify how effectively footballers progress play through passing and ball carrying. I propose two position-adjusted indices, the Pass Progression Index and the Carry Progression Index, each combining progressive volume, end-product contribution, and ball security into a single 0–100 score within positional cohorts. The resulting leaderboards are coherent with observed roles and reputations: midfield and wing-back rankings are dominated by highly creative players with strong offensive responsibility in build-up and chance creation, while forward and goalkeeper cohorts highlight wide creators and distribution-oriented keepers. Methodologically, I show that estimating data-driven importance weights for heterogeneous progressive actions yields a more faithful measure of progression capacity than equal-weight percentile averaging, because it rewards specialised high-impact progression modes rather than stylistic versatility per se. Finally, I aggregate passing- and carrying-based information into a global progression score that summarises a player’s overall ability to advance possession while remaining interpretable across positions. Cross-checks against extensive match viewing from the same season suggest that these indices provide credible low-cost tools for profiling progression and supporting recruitment decisions, especially in contexts where proprietary event-value models are unavailable. The full pipeline is transparent, reproducible, and intended as a baseline for scouting-oriented applications on less-covered leagues.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This project aims to build practical, reproducible metrics that quantify a player’s ability to progress the ball for their team, both by passing and by carrying, using freely available data and open tools. The motivation is concrete and personal: I want to augment my visual match-reading with objective measures drawn from advanced football statistics I consult daily, and to leverage my proficiency in R to implement them. The goal is to produce indices that are analytically sound, operationally useful, and transparent about the choices made to construct them.</p>
+<section id="why-this-problem-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-problem-matters">Why this problem matters</h3>
+<p>Conventional chance-creation measures such as expected assists and expected goals capture very well a player’s capacity to generate shots and clear-cut opportunities. The capacity to progress the ball, however, is conceptually different and empirically fuzzier. Progression can be achieved in multiple ways, by chains of passes, by individual carries, or by combinations of both, and it is rarely captured fully by one or two single columns in a table. That is why a composite index is necessary: by combining quantity, quality and risk components drawn from multiple complementary statistics we aim to capture a broader, more robust signal of true progression ability. This index is designed to complement, not replace, visual scouting and event-level models; it should help prioritise which players to watch, and to test whether my in-match impressions align with systematic patterns in open data.</p>
+</section>
+<section id="data-philosophy-and-reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="data-philosophy-and-reproducibility">Data philosophy and reproducibility</h3>
+<p>The project is deliberately constrained to free, public data so the workflow remains reproducible and portable. Anyone with access to the same public sources can recreate, validate and extend this work. All transformations and analyses are implemented in R with clear, commented code that documents every step: variable selection, percentile and normalization choices, weighting decisions, PCA or aggregation logic, and final index construction. Transparency and reproducibility are core values; every numeric decision is recorded and justifiable.</p>
+</section>
+<section id="method-and-validation" class="level3">
+<h3 class="anchored" data-anchor-id="method-and-validation">Method and validation</h3>
+<p>In practice there are two distinct progression profiles worth distinguishing: players whose primary contribution is through progressive passing, and players who primarily advance play by carrying the ball (dribblers/carriers). That is why I first construct two separate, interpretable sub-indices, a pass index and a carry index; each designed to summarise quantity, quality and risk for its respective mode of progression.</p>
+<p>In addition to those weighted-percentile indices, I also explore a PCA-based approach as a fundamentally different method rather than as a simple aggregation of the two sub-indices. The PCA is performed on the underlying percentile variables themselves, not on the pass index and carry index, and it yields orthogonal components that capture the principal directions of variation in the raw features. This PCA index is conceptually distinct: it produces weights that are determined by the covariance structure of the variables and highlights the dominant shared signal without requiring arbitrary weight choices.</p>
+<p>I apply the indices to the five major European leagues that I follow closely so I can verify that players who score highly under each method correspond to my visual assessments and domain knowledge. This helps ensuring me that the metrics capture meaningful on-field behaviour rather than artefacts of data processing, and it informs subsequent choices about thresholds, robustness checks and any post-processing needed.</p>
+</section>
+<section id="practical-application-and-next-steps" class="level3">
+<h3 class="anchored" data-anchor-id="practical-application-and-next-steps">Practical application and next steps</h3>
+<p>The indices are intended as a toolset. Using them for operational scouting and discovery of underappreciated talent is the natural next phase of the project, and will be the subject of subsequent work. For now, the emphasis is on building robust, interpretable indices and on validating them on leagues and players I know well. Once validated, the same metrics can be applied to lesser-known competitions to prioritise players for further video scouting and recruitment consideration, focusing on profiles able to make a difference by progressing play either through carries or passes.</p>
+</section>
+<section id="what-this-document-contains" class="level3">
+<h3 class="anchored" data-anchor-id="what-this-document-contains">What this document contains</h3>
+<p>This document will provide a clear description of every variable and the reason for its selection, a full account of the data-collection procedures, each code snippet used to compute the indices with line-by-line explanations and the rationale for every choice. It will also present notes on robustness checks and stability thresholds, diagnostic outputs (such as correlations, PCA loadings and ranked player lists), and interpretative commentary that links numerical results to on-field behaviour.<br>
+It will further explain the thought process behind weighting, inclusion rules, and any smoothing or shrinkage applied to low-volume players, so that another analyst can follow, critique, or adapt the pipeline.</p>
+</section>
+<section id="project-status-note" class="level3">
+<h3 class="anchored" data-anchor-id="project-status-note">Project Status Note</h3>
+<p>This project is a work in progress. The Carry Index and the combined Carry+Pass metric are still under development, so they are not yet included in a finished form. At this stage, the Pass Progression Index is the only component considered sufficiently complete for analysis. That said, even the Pass Progression Index may still evolve: I’m continuing to refine the methodology and explore more efficient modeling choices, which could lead to adjustments in its definition or implementation in future updates.</p>
+</section>
+<section id="a-final-candid-note" class="level3">
+<h3 class="anchored" data-anchor-id="a-final-candid-note">A final, candid note</h3>
+<p>I recognise that much more sophisticated models than these indices exist, notably expected-threat (xT) frameworks that estimate the change in scoring opportunity when the ball moves from one zone to another on the pitch. Similarly, commercial products such as StatsBomb’s on-ball value (OBV) models provide more granular, spatially-aware estimates of action value. I do not claim to have revolutionised football analytics; these indices are intended as a practical, reproducible and interpretable approach that complements both visual scouting and more advanced spatial models, not as a replacement for them. Note also that those advanced spatial models and proprietary valuations are paid services, whereas this project prioritises methods and data that are freely accessible.</p>
+</section>
+</section>
+<section id="glossary-of-variables-and-calculation-methods" class="level2">
+<h2 class="anchored" data-anchor-id="glossary-of-variables-and-calculation-methods">Glossary of Variables and Calculation Methods</h2>
+<p>I selected all available variables that measure both the quantity and the quality of progressive actions to construct the progression indices. The included variables are “prpasses90”, “prcarries90”, “prrecep90”, “cpa90”, “passesfinalthird90”, “crspa90”, “tbpass90”, “pertes90”, “kp90”, “xa90”, “passesratees90”, “carriesratees90”, “scato90” and “db90”.</p>
+<p>I use “xa90” rather than raw assist counts to isolate the passer contribution. Expected assists estimate the quality of the chances a player creates. They do not depend on whether teammates convert those chances. Raw assists combine chance creation with teammates finishing ability. That conflation would reward players whose teammates overperform their expected goals. Using “xa90” removes that source of variance and better reflects the passer’s own contribution.</p>
+<p>For dribbling progression I prefer “scato90” over “gcato90” for the same reason. “scato90” counts dribbles that lead to a shot. “gcato90” counts dribbles that lead to a goal. Goals are rarer events and are strongly influenced by teammates finishing quality. Including “gcato90” would import that external effect into the progression index. “scato90” therefore better captures the player specific ability to advance play by beating opponents and generating shooting opportunities.</p>
+<p>All variables used in the analyses are expressed per 90 minutes of playing time. Normalising raw counts to a common minute exposure produces rates that are directly comparable across players. This practice limits bias from unequal playing time and reduces heteroscedasticity in downstream modelling. It therefore improves the statistical stability and interpretability of the indices derived from these metrics.</p>
+<p>The field <code>Pos.x</code> contains the full set of positions listed by FBref for each player. FBref’s position taxonomy is deliberately coarse and uses only four categories: <code>GK</code>, <code>DF</code>, <code>MF</code> and <code>FW</code>. As a consequence, full-backs, wing-backs and central defenders are always grouped as <code>DF</code>, wingers and centre-forwards are always grouped as <code>FW</code> and defensive and attacking midfielders under <code>MF.</code>Players may be listed at multiple positions; for comparisons we create a separate variable <code>Pos</code> that retains the first position reported by FBref and treat that as the player’s primary position. Because positional groups on FBref are broad, percentile comparisons by position will sometimes compare players with markedly different on-field roles and responsibilities.</p>
+<p>The following definitions refer either to the original FBref field or to variables derived in the pipeline. The exact code used to create every derived variable will be provided in the next section.</p>
+<p><code>Player</code><br>
+Player name as recorded by FBref.</p>
+<p><code>Squad.x</code><br>
+Club or squad as recorded by FBref.</p>
+<p><code>Pos.x</code><br>
+All positions listed by FBref for the player, in reported order.</p>
+<p><code>Pos</code><br>
+Primary position retained for analysis, equal to the first position listed in <code>Pos.x</code>.</p>
+<p><code>Min_Playing</code><br>
+Total minutes played by the player during the season.</p>
+<p><code>prpasses90</code> (Progressive passes per 90) A progressive pass is a completed pass that advances the ball by at least ten yards or that enters the opponent’s penalty area. This variable is computed as the FBref progressive-pass count divided by (Min_Playing / 90).</p>
+<p><code>prcarries90</code> (Progressive carries per 90)<br>
+A progressive carry advances play toward the opponent’s goal by at least ten yards or results in entry into the penalty area. This variable is computed as the FBref progressive-carry count divided by (Min_Playing / 90).</p>
+<p><code>prrecep90</code> (Progressive receptions per 90)<br>
+A progressive reception is a received pass that advances play toward the opponent’s goal by at least ten yards or results in entry into the penalty area. This variable is computed as the FBref progressive-reception count divided by (Min_Playing / 90).</p>
+<p><code>cpa90</code> (Carries into the penalty area per 90) Carries that end with the player carrying the ball into the opponent’s penalty area, expressed per 90 minutes.</p>
+<p><code>passesfinalthird90</code> (Passes into the final third per 90)<br>
+Passes that enter the final third of the pitch, normalised to a 90-minute basis.</p>
+<p><code>crspa90</code> (Crosses into the penalty area per 90)<br>
+Crosses directed into the opponent’s penalty area per 90 minutes, corresponding to FBref’s crosses-to-penalty-area counts.</p>
+<p><code>tbpass90</code> (Through balls per 90)<br>
+Through-ball attempts per 90 minutes. Through balls are passes that play a teammate into space behind the defensive line.</p>
+<p><code>pertes90</code> (Losses of possession per 90)<br>
+Constructed turnover rate per 90 minutes. <code>Ballons_perdus</code> is the sum of <code>Dis_Carries</code>, <code>Mis_Carries</code> and <code>Passes_ratees</code>. <code>pertes90</code> equals <code>Ballons_perdus</code> divided by (Min_Playing / 90). On FBref, <code>Dis_Carries</code> records occasions where a player is dispossessed while carrying the ball. <code>Mis_Carries</code> counts failed or miscontrolled carries. <code>Passes_ratees</code> is computed as attempted passes minus completed passes and represents unsuccessful pass completions.</p>
+<p><code>kp90</code> (Key passes per 90) Key passes are final passes that lead directly to a teammate’s shot.</p>
+<p><code>xa90</code> (Expected assists per 90)<br>
+xA measures the probability that a given pass will become an assist; the season total xA is divided by (Min_Playing / 90). It is a metric that captures the quality of the situations created by a player’s passing by measuring how effectively their deliveries generates advantageous opportunities for teammates.</p>
+<p><code>passesratees90</code> (Unsuccessful passes per 90)<br>
+Unsuccessful pass completions per 90 minutes, computed as (Att_Total − Cmp_Total) divided by (Min_Playing / 90).</p>
+<p><code>carriesratees90</code> (Failed carries per 90)<br>
+Failed carry events per 90 minutes, computed as (Dis_Carries + Mis_Carries) divided by (Min_Playing / 90).</p>
+<p><code>scato90</code> (Shot-creating actions take-ons per 90)<br>
+A shot-creating take-on is a successful dribble or take-on that directly leads to a shot. The variable <code>scato90</code> records the number of such actions per 90 minutes by dividing the FBref shot-creating-take-on count by (Min_Playing / 90).</p>
+<p><code>db90</code> (Successful take-ons per 90)<br>
+Successful take-ons or dribbles per 90 minutes, based on FBref’s <code>Succ</code> field and normalised by minutes played.</p>
+</section>
+<section id="data-processing-and-indices-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="data-processing-and-indices-methodology">Data Processing and Indices Methodology</h2>
+<p>Packages needed to run the code :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#packages needed</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidyverse"</span>,<span class="st">"readxl"</span>,<span class="st">"worldfootballR"</span>,<span class="st">"janitor"</span>,<span class="st">"missMDa"</span>,<span class="st">"ggplot2"</span>,<span class="st">"ggrepl"</span>,<span class="st">"gt"</span>,<span class="st">"webshot2"</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(missMDA)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webshot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The opening section of the script imports comprehensive player statistics from FBref for the five major European leagues. During ingestion the Shot-Creating Actions (SCA) and Carries into the Penalty Area (CPA) fields, however, exhibited an unusually high proportion of missing values, so these two metrics were extracted manually and saved as Excel workbooks in a separate folder to ensure completeness and reproducibility. The supplemental Excel files are read into the pipeline with the following lines (please update the paths to match your environment before running): <code>df_sample8 &lt;- read_excel("~/M2/Recherche Stage M2/Scouting dashboard/bdd_scaclean2.xlsx")</code> and <code>df_sample9 &lt;- read_excel("~/M2/Recherche Stage M2/Scouting dashboard/indices finaux/CPA.xlsx")</code>. Finally, all FBref tables and the Excel supplements are normalized as required, most importantly by standardizing player names, and merged on <code>player_name</code> to yield a single master dataset containing the full set of statistics used to compute the indices.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data collection</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>season_end_year <span class="ot">&lt;-</span> <span class="dv">2025</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>stat_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"standard"</span>, <span class="st">"shooting"</span>, <span class="st">"passing"</span>, <span class="st">"passing_types"</span>, <span class="st">"passing_outcomes"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"gca"</span>, <span class="st">"possession"</span>, <span class="st">"misc"</span>, <span class="st">"defense"</span>) </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>list_stats <span class="ot">&lt;-</span> <span class="fu">map</span>(stat_types, <span class="sc">~</span>{</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tryCatch</span>({</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">stat_type =</span> .x,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    df<span class="sc">$</span>stat_type_source <span class="ot">&lt;-</span> .x</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    df</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"stat_type "</span>, .x, <span class="st">" non dispo : "</span>, e<span class="sc">$</span>message)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NULL</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>df_sample1 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"possession"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>df_sample2 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"standard"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>df_sample3 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"shooting"</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df_sample4 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"passing"</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>df_sample5 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"passing_types"</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>df_sample6 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"misc"</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>df_sample7 <span class="ot">&lt;-</span> <span class="fu">load_fb_big5_advanced_season_stats</span>(<span class="at">season_end_year =</span> season_end_year,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">stat_type =</span> <span class="st">"defense"</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">team_or_player =</span> <span class="st">"player"</span>)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>df_sample8 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"~/M2/Recherche Stage M2/Scouting dashboard/bdd_scaclean2.xlsx"</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>df_sample9 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"~/M2/Recherche Stage M2/Scouting dashboard/indices finaux/CPA.xlsx"</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>df_merged <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(x, y) <span class="fu">merge</span>(x, y, <span class="at">by =</span> <span class="st">"Player"</span>, <span class="at">all =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">list</span>(df_sample1, df_sample2, df_sample3, df_sample4,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>                         df_sample5, df_sample6, df_sample7, df_sample8, df_sample9))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The merged dataset is reduced to a single row per player by creating a composite key that combines club and player name (<code>paste(Squad.x, Player, sep = "|")</code>) and by removing duplicated keys. Duplicate columns are then eliminated with <code>df_merged &lt;- df_merged[, !duplicated(names(df_merged))]</code> to avoid redundancy. I compute a set of per 90 minutes variables (for example <code>prcarries90 = PrgC_Progression / (Min_Playing / 90)</code>, <code>kp90</code>, <code>xa90</code>, <code>pertes90</code>) to normalise event counts by minutes of exposure. I then create <code>df1</code> to retain only the required identifiers and indicators. <code>Min_Playing</code> is coerced to numeric and the dataset is filtered to include players with at least 1000 minutes in the previous season. This threshold, roughly equivalent to eleven full 90 minute appearances, ensures that estimates rely on meaningful playing time and are statistically more stable. Finally, I inspect missing values, note 75 missing <code>pertes90</code> entries, identify the affected players and remove those rows to produce the final cleaned sample <code>df3_clean</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#data cleaning</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df_merged <span class="ot">&lt;-</span> df_merged[, <span class="sc">!</span><span class="fu">duplicated</span>(<span class="fu">names</span>(df_merged))]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">paste</span>(df_merged<span class="sc">$</span>Squad.x, df_merged<span class="sc">$</span>Player, <span class="at">sep =</span> <span class="st">"|"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df_merged <span class="ot">&lt;-</span> df_merged[<span class="sc">!</span><span class="fu">duplicated</span>(key), ]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df_merged)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#variables creation</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>prcarries90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>PrgC_Progression <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>prpasses90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>PrgP_Progression <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>) </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>prrecep90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>PrgR_Progression <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>kp90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>KP <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>Passes_ratees <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Att_Total <span class="sc">-</span> df_merged<span class="sc">$</span>Cmp_Total</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>passesratees90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Passes_ratees <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>carriesratees <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Dis_Carries <span class="sc">+</span> df_merged<span class="sc">$</span>Mis_Carries          </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>carriesratees90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>carriesratees <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>) </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>Ballons_perdus <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Dis_Carries <span class="sc">+</span> df_merged<span class="sc">$</span>Mis_Carries <span class="sc">+</span> df_merged<span class="sc">$</span>Passes_ratees</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>pertes90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Ballons_perdus <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>passesfinalthird90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Final_Third <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>crspa90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>CrsPA <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>) </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>tbpass90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>TB_Pass <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>) </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>cpa90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>cpa <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>) <span class="co"># </span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>xa90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>xA_Expected <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>) </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>scato90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>scato <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>db90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>Succ <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>df_merged<span class="sc">$</span>prgdist90 <span class="ot">&lt;-</span> df_merged<span class="sc">$</span>PrgDist_Total <span class="sc">/</span> (df_merged<span class="sc">$</span>Min_Playing <span class="sc">/</span> <span class="dv">90</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df_merged[, <span class="fu">c</span>(<span class="st">"Player"</span>,<span class="st">"Squad.x"</span>,<span class="st">"Comp.x"</span>,<span class="st">"Nation.x"</span>,<span class="st">"Pos.x"</span>,<span class="st">"Born.x"</span>,<span class="st">"Age.x"</span>,<span class="st">"MP_Playing"</span>,<span class="st">"Min_Playing"</span>,<span class="st">"prpasses90"</span>,<span class="st">"prcarries90"</span>,<span class="st">"prrecep90"</span>,<span class="st">"cpa90"</span>,<span class="st">"passesfinalthird90"</span>,<span class="st">"crspa90"</span>,<span class="st">"tbpass90"</span>,<span class="st">"pertes90"</span>,<span class="st">"kp90"</span>,<span class="st">"xa90"</span>,<span class="st">"passesratees90"</span>,<span class="st">"carriesratees90"</span>,<span class="st">"sca"</span>,<span class="st">"sca90"</span>,<span class="st">"scato"</span>,<span class="st">"scato90"</span>,<span class="st">"db90"</span>)]</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span>  </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Min_Playing =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">"."</span>, <span class="fu">as.character</span>(Min_Playing)))) <span class="sc">%&gt;%</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Min_Playing) <span class="sc">&amp;</span> Min_Playing <span class="sc">&gt;=</span> <span class="dv">1000</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(df3<span class="sc">$</span>pertes90))</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(na_count)<span class="co">#74 only variable with missing datas, 5% of the df (and not best players) -&gt; can be removed</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(<span class="fu">as.character</span>(df3[<span class="fu">is.na</span>(df3<span class="sc">$</span>pertes90), <span class="dv">1</span>]))</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> df3 <span class="sc">%&gt;%</span> </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(pertes90))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>I wanted to ensure that the statistics properly reflect the existence of different player profiles. Some players progress the ball mainly through dribbling and others mainly through passing. To verify this distinction, I plotted progressive carries on the x-axis and progressive passes on the y-axis. The objective was to explore whether players tend to specialise in one behaviour or whether some combine both at a high level.</p>
+<p>I decided to include only the thirty players with the highest volume of progressive carries and the thirty players with the highest volume of progressive passes. These two variables are strong indicators of how often a player advances the ball by dribbling or by passing, so they provide a meaningful picture of progression styles. The graph clearly shows two dominant profiles. Some players rely much more on dribbling to break lines, while others mainly progress play with their passing. There are a few notable exceptions who show high volume in both dimensions, such as Dembélé, Yamal and Nuno Tavares.</p>
+<p>This observation leads to a structured approach for building the indices. First, I will construct one index that measures progression through passing and another that measures progression through dribbling. Only after defining those two dimensions will I attempt to design a combined index that captures total progressive impact. Players like the ones mentioned above, who contribute significantly through both methods, should then be rewarded accordingly in the final comprehensive metric.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>top_pass  <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(prpasses90))  <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(prpasses90))  <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">30</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Player)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>top_carry <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(prcarries90)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(prcarries90)) <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">30</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Player)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Player <span class="sc">%in%</span> <span class="fu">union</span>(top_pass, top_carry)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    Player <span class="sc">%in%</span> top_pass <span class="sc">&amp;</span> Player <span class="sc">%in%</span> top_carry <span class="sc">~</span> <span class="st">"both"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    Player <span class="sc">%in%</span> top_pass <span class="sc">~</span> <span class="st">"top_pass"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"top_carry"</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> prcarries90, <span class="at">y =</span> prpasses90, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> Player),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">3</span>,                 </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">max.overlaps =</span> <span class="dv">200</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">box.padding =</span> <span class="fl">0.25</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">point.padding =</span> <span class="fl">0.3</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">segment.size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Progressive carries /90 (prcarries90)"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Progressive passes /90 (prpasses90)"</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Top30 prpasses90 &amp; Top30 prcarries90"</span>) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>top_pass  <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(xa90))  <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(xa90))  <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">30</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Player)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>top_carry <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(sca90)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(sca90)) <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">30</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Player)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Player <span class="sc">%in%</span> <span class="fu">union</span>(top_pass, top_carry)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    Player <span class="sc">%in%</span> top_pass <span class="sc">&amp;</span> Player <span class="sc">%in%</span> top_carry <span class="sc">~</span> <span class="st">"both"</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    Player <span class="sc">%in%</span> top_pass <span class="sc">~</span> <span class="st">"top_pass"</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"top_carry"</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> sca90, <span class="at">y =</span> xa90, <span class="at">color =</span> group)) <span class="sc">+</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> Player),</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>                  <span class="at">max.overlaps =</span> <span class="dv">200</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                  <span class="at">box.padding =</span> <span class="fl">0.25</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                  <span class="at">point.padding =</span> <span class="fl">0.3</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>                  <span class="at">segment.size =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Shot-creating actions /90 (sca90)"</span>,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Expected assists /90 (xa90)"</span>,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Top30 xa90 &amp; Top30 sca90"</span>) <span class="sc">+</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="Rplot.png" class="img-fluid"></p>
+<p>Before constructing the progression metrics, I test the pairwise correlations among the variables intended for use. The code builds a numeric matrix from the selected fields, computes a pairwise-complete correlation matrix, and prints any variable pairs with absolute correlation greater than 0.85. This automatic check flags potential multicollinearity before indices are formed.</p>
+<p>Two strong relationships were observed and are expected on theoretical grounds. <code>xa90</code> and <code>kp90</code> correlate at approximately 0.90. This is sensible because both capture aspects of chance creation by passing: key passes count the final passes that lead directly to a teammate’s shot, while expected assists (xA) quantify the shot-creating quality of passes by assigning each pass a probability of becoming an assist. Players who produce many key passes therefore tend also to accumulate high xA, which explains the high correlation. <code>pertes90</code> and <code>passesratees90</code> correlate at roughly 0.99. This near-perfect correlation is unsurprising because <code>pertes90</code> is constructed by aggregating <code>passesratees90</code> together with other turnover components; when a constructed variable contains another as a primary component, a very high correlation is inevitable.</p>
+<p>These findings have practical implications for index construction. Highly collinear variables may inflate variance in composite scores or multivariate models, so I exclude variables exhibiting excessive collinearity when constructing indices as weighted averages to avoid double-counting redundant information. When exclusion would discard materially distinct signals, I apply principal component analysis and use the resulting component scores in place of the original variables (this will be the case for my final metric). This preserves interpretability while ensuring that each index combines information that is orthogonal and statistically stable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checking for correlation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">all_of</span>(vars_use)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.numeric))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(mat, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(cor_mat, <span class="dv">2</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>high_cor <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">abs</span>(cor_mat) <span class="sc">&gt;</span> <span class="fl">0.85</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(cor_mat) <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(high_cor) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Paires très corrélées (&gt;0.85) :</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(high_cor, <span class="dv">1</span>, <span class="cf">function</span>(i) {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">rownames</span>(cor_mat)[i[<span class="dv">1</span>]], <span class="st">" &lt;-&gt; "</span>, <span class="fu">colnames</span>(cor_mat)[i[<span class="dv">2</span>]], </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">" = "</span>, <span class="fu">round</span>(cor_mat[i[<span class="dv">1</span>], i[<span class="dv">2</span>]], <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="fu">cat</span>(<span class="st">"Aucune paire &gt; 0.85 détectée.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="pass-progresion-index" class="level3">
+<h3 class="anchored" data-anchor-id="pass-progresion-index">Pass Progresion Index</h3>
+<p>This section describes the construction of the pass-progression index. The index combines three complementary dimensions of passing: the volume of progressive actions (“PassQuantity”), the ability of those actions to generate genuine chances (“PassQuality”), and the degree of control with which they are executed (“PassAccuracy”). The core passing variables retained are <span class="math inline">\(\mathrm{prpasses90}\)</span>, <span class="math inline">\(\mathrm{passesfinalthird90}\)</span>, <span class="math inline">\(\mathrm{crspa90}\)</span> and <span class="math inline">\(\mathrm{tbpass90}\)</span>, which represent progressive passes, passes into the final third, crosses into the penalty area and through balls. These four variables capture distinct modalities by which a player can advance possession by passing. A naïve way to measure “quantity” would be to convert each of the four variables into positional percentiles and then average those percentiles with equal weights. Such a construction would primarily reward versatility: players who use several different types of progressive passes would score better than players who rely heavily on a single type. For this project, however, the intention is to measure volume of progression rather than versatility of patterns. If a player produces an extremely high number of through balls but rarely attempts crosses into the box, he should still be rated as providing a very large amount of progression by passing. For that reason, PassQuantity is built from the raw per-90 volumes, combined through data-driven weights and only then converted to a percentile. I chose not to include metres gained by pass variables because they are largely collinear with the progressive pass modalities already modelled and add little incremental information on chance creation: conditional on the weighted progressive-pass volumes, their marginal association with xA is negligible, so incorporating them would primarily increase measurement noise rather than improve signal. Moreover, a raw metres-gained metric is not valuation-neutra, gains in a team’s own half are not equivalent to gains in advanced zones. So using it properly would require a complex, zone-dependent weighting scheme; the current framework already captures “dangerous” progression through empirically calibrated weights tied to xA, making an additional distance term both redundant and potentially destabilising for the index.</p>
+<p>Rather than assigning arbitrary weights to the four pass types, I estimate how strongly each one is associated with expected assists per 90 (<span class="math inline">\(\mathrm{xa90}\)</span>). For each player <span class="math inline">\(i\)</span>, let <span class="math inline">\(xA_i\)</span> denote <span class="math inline">\(\mathrm{xa90}_i\)</span> and let <span class="math inline">\(X_{ik}\)</span> be the standardised value of pass-type <span class="math inline">\(k\in\{1,\dots,4\}\)</span> (progressive passes, passes into the final third, crosses into the box and through balls). I estimate an ordinary least squares (OLS) regression. <span class="math display">\[
+xA_i = \alpha + \sum_{k=1}^{4} \beta_k X_{ik} + \varepsilon_i.
+\]</span> OLS chooses the coefficients α,β1,…,β4 that minimise the sum of squared residuals <span class="math display">\[\sum_{i} \varepsilon_i^{2}
+\;=\;
+\sum_{i} \Bigl(xA_i - \alpha - \sum_{k=1}^{4} \beta_k X_{ik}\Bigr)^{2}\]</span></p>
+<p>The absolute coefficients are then normalised to sum to one and interpreted as importance weights <span class="math display">\[
+w_k = \frac{\lvert \beta_k\rvert}{\displaystyle\sum_{j=1}^{4}\lvert \beta_j\rvert}, \qquad k = 1,\dots,4,
+\]</span> so that a pass type which tends to generate more <span class="math inline">\(xA\)</span> across the sample receives a higher weight in the quantity measure. In the present dataset this yields approximate weights <span class="math display">\[
+w_{\mathrm{prpasses90}} \approx 0.26,\quad
+w_{\mathrm{passesfinalthird90}} \approx 0.20,\quad
+w_{\mathrm{crspa90}} \approx 0.26,\quad
+w_{\mathrm{tbpass90}} \approx 0.29,
+\]</span> which reflect the idea that through balls and crosses into the box are, on average, somewhat more productive for chance creation than simple progressive passes or generic passes into the final third. The raw quantity score for player <span class="math inline">\(i\)</span> is the weighted sum <span class="math display">\[
+\mathrm{PassQuantity}^{\mathrm{raw}}_i = \sum_{k=1}^{4} w_k P_{ik},
+\]</span> where <span class="math inline">\(P_{ik}\)</span> is the per-90 count of pass-type <span class="math inline">\(k\)</span> in original units. This provides an empirically grounded “conversion rate” between the four pass types and turns them into a single notion of progressive passing volume.</p>
+<p>For the quality component I deliberately retain expected assists per 90, <span class="math inline">\(\mathrm{xa90}\)</span>, rather than working with residual <span class="math inline">\(xA\)</span>. At an intermediate stage I constructed a “pure” quality term by regressing <span class="math inline">\(xA\)</span> on <span class="math inline">\(\mathrm{PassQuantity}^{\mathrm{raw}}_i\)</span> and taking residuals, so that quality captured only the portion of <span class="math inline">\(xA\)</span> not explained by volume. This residual specification is statistically neat, but it has an undesirable side-effect for an index intended to measure progression by passing: archetypal high-volume playmakers whose <span class="math inline">\(xA\)</span> is roughly proportional to their involvement are partly discounted, while more marginal profiles with modest involvement and volatile <span class="math inline">\(xA\)</span> per 90 tend to be pushed up. Since the purpose of the index is precisely to surface players who consistently move the ball forward and generate good chances for their team, it is more appropriate to reward the total level of expected assists. In the final specification, PassQuality is therefore defined as <span class="math inline">\(xA\)</span> per 90, expressed as a positional percentile. Misplaced passes per 90 (<span class="math inline">\(\mathrm{passesratees90}\)</span>) are used to form the PassAccuracy component: within each positional group I compute the percentile of missed passes and invert it so that a higher <span class="math inline">\(\mathrm{PassAccuracy\_pct}\)</span> corresponds to a lower rate of failed passes.</p>
+<p>All three components are then put on a common 0–100 scale by computing positional percentiles. Formally, for any sample <span class="math inline">\(\{x_k\}_{k=1}^{n}\)</span> used to compute percentiles within a given positional group, the rank of observation <span class="math inline">\(x_i\)</span> is its ordinal position in the sorted (ascending) sample: <span class="math display">\[
+\operatorname{rank}(x_i) = 1 \text{ for the smallest value,}\qquad
+\operatorname{rank}(x_i) = n \text{ for the largest value.}
+\]</span> The empirical percentile-rank (PR) and its 0–100 counterpart are then defined by <span class="math display">\[
+\mathrm{PR}(x_i) = \frac{\operatorname{rank}(x_i)-1}{\,n-1\,} \in [0,1],\qquad
+\mathrm{PR\%}(x_i) = 100\cdot \mathrm{PR}(x_i).
+\]</span> For each player <span class="math inline">\(i\)</span> in positional group <span class="math inline">\(\mathcal{P} = \mathrm{Pos}(i)\)</span>, I denote by <span class="math display">\[
+\tilde{Q}_i = \mathrm{PR\%}\big(\mathrm{PassQuantity}^{\mathrm{raw}}_i\big),\qquad
+\tilde{R}_i = \mathrm{PR\%}\big(\mathrm{xa90}_i\big),\qquad
+\tilde{A}_i = 100 - \mathrm{PR\%}\big(\mathrm{passesratees90}_i\big),
+\]</span> the corresponding positional percentiles of progressive passing volume, expected-assist output, and (inverted) misplaced-pass rate. These three scores represent, respectively, how much progressive passing volume a player provides compared to his peers at the same position, how much expected-assist output he generates, and how well he controls the ball while attempting these passes.</p>
+<p>To inform the relative weighting of these three components, I estimate a diagnostic model in which expected assists are regressed on three orthogonalised dimensions: a quantity percentile, a residual-quality percentile and an accuracy percentile. Concretely, I first regress <span class="math inline">\(xA\)</span> on <span class="math inline">\(\mathrm{PassQuantity}^{\mathrm{raw}}_i\)</span> and form residuals <span class="math inline">\(xA_i^{\mathrm{res}}\)</span>; I then compute positional percentiles <span class="math inline">\(Q_i\)</span>, <span class="math inline">\(R_i\)</span> and <span class="math inline">\(A_i\)</span> of the quantity, residual-quality and accuracy terms, and fit <span class="math display">\[
+xA_i = \gamma_0 + \gamma_Q Q_i + \gamma_R R_i + \gamma_A A_i + \eta_i.
+\]</span> Here OLS again chooses<span class="math display">\[\gamma_0, \gamma_Q, \gamma_R, \gamma_A\]</span> to minimise the sum of squared residuals, so the fitted linear combination of Qi,Ri,Ai provides the best least-squares approximation to xA using these three diagnostic components. Normalising the absolute coefficients, <span class="math display">\[
+\omega_Q = \frac{\lvert \gamma_Q\rvert}{\lvert \gamma_Q\rvert + \lvert \gamma_R\rvert + \lvert \gamma_A\rvert},\quad
+\omega_R = \frac{\lvert \gamma_R\rvert}{\lvert \gamma_Q\rvert + \lvert \gamma_R\rvert + \lvert \gamma_A\rvert},\quad
+\omega_A = \frac{\lvert \gamma_A\rvert}{\lvert \gamma_Q\rvert + \lvert \gamma_R\rvert + \lvert \gamma_A\rvert},
+\]</span> yields approximate shares <span class="math inline">\(\omega_Q\approx 0.33\)</span>, <span class="math inline">\(\omega_R\approx 0.62\)</span> and <span class="math inline">\(\omega_A\approx 0.04\)</span>. Statistically, this procedure asks: “if we try to explain variation in <span class="math inline">\(xA\)</span> using these three dimensions, how much weight does each one naturally receive in the best linear approximation?”. Using this regression as a calibration step is pertinent for a progression index, because it anchors the weights in the empirical link between each component and a concrete measure of valuable attacking output. At the same time, the index itself is not meant to be a pure <span class="math inline">\(xA\)</span> predictor, but a balanced summary of progression by passing.</p>
+<p>For that reason I do not plug <span class="math inline">\(\omega_Q,\omega_R,\omega_A\)</span> directly into the index. Instead I adopt rounded, interpretable weights <span class="math display">\[
+\lambda_Q = 0.4,\qquad \lambda_R = 0.5,\qquad \lambda_A = 0.1,
+\]</span> which preserve the ordering suggested by the data (quality somewhat more important than quantity, accuracy less so) while ensuring that the accuracy dimension retains a meaningful influence. The raw pass-progression index for player <span class="math inline">\(i\)</span> is then <span class="math display">\[
+\mathrm{PassIndex}^{\mathrm{raw}}_i
+= \lambda_Q\,\tilde{Q}_i + \lambda_R\,\tilde{R}_i + \lambda_A\,\tilde{A}_i,
+\]</span> and the final index <span class="math inline">\(\mathrm{PassIndex}^{\mathrm{pct}}_i\)</span> is obtained by rank-standardising <span class="math inline">\(\mathrm{PassIndex}^{\mathrm{raw}}_i\)</span> within the player’s positional group to a 0–100 percentile scale, that is <span class="math display">\[
+\mathrm{PassIndex}^{\mathrm{pct}}_i
+= \mathrm{PR\%}\big(\mathrm{PassIndex}^{\mathrm{raw}}_i\big).
+\]</span></p>
+<p>In light of the results, the index appears robust in practice. Among midfielders, players such as Joshua Kimmich, Luka Modrić and Pedri appear at the very top of the distribution, which coheres with their widely recognised status as central playmaking hubs and elite progressive passers. Among forwards, Lee Kang-in reaches the 100th percentile within his cohort; even if it is not considered as an absolute top player, this can be understood in light of his occasional deeper deployment at PSG, a substantial share of minutes accumulated late in matches against tired opposition, and a relatively high proportion of minutes in comparatively favourable Ligue 1 fixtures, all of which facilitate strong per-90 passing numbers. He is closely accompanied by Ousmane Dembélé and Michael Olise, whose creative profiles and tendency to supply dangerous passes from wide or half-space zones are well established. In the defender group, Konrad Laimer and Leon Goretzka rank highly chiefly because they are classified as defenders in the underlying data despite occupying de facto midfield roles, while attacking full-backs and wing-backs such as Trent Alexander-Arnold, Achraf Hakimi, Nuno Mendes, Raphaël Guerreiro and Alphonso Davies also feature prominently, in line with their reputations as major outlets for progression from wide areas. For goalkeepers the index is of secondary interest, but it still captures distributional quality: Oliver Baumann, Ederson and Manuel Neuer all rate very highly, reflecting their roles in teams that actively use the goalkeeper to initiate play and break opposition lines rather than confining them to pure shot-stopping duties.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#pass index</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df4</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pass_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"prpasses90"</span>,<span class="st">"passesfinalthird90"</span>,<span class="st">"crspa90"</span>,<span class="st">"tbpass90"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>xa_var    <span class="ot">&lt;-</span> <span class="st">"xa90"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>miss_var  <span class="ot">&lt;-</span> <span class="st">"passesratees90"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>mod_df <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(xa_var, pass_vars))) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">scale</span>(mod_df[, pass_vars])</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> mod_df[[xa_var]]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(coefs) <span class="ot">&lt;-</span> pass_vars</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(coefs))) {</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  weights_quantity <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(pass_vars), <span class="fu">length</span>(pass_vars))</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(weights_quantity) <span class="ot">&lt;-</span> pass_vars</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  coefs_abs <span class="ot">&lt;-</span> <span class="fu">abs</span>(coefs)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">sum</span>(coefs_abs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    weights_quantity <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span> <span class="sc">/</span> <span class="fu">length</span>(pass_vars), <span class="fu">length</span>(pass_vars))</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(weights_quantity) <span class="ot">&lt;-</span> pass_vars</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    weights_quantity <span class="ot">&lt;-</span> coefs_abs <span class="sc">/</span> <span class="fu">sum</span>(coefs_abs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  heights <span class="ot">&lt;-</span> weights_quantity,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> <span class="fu">names</span>(weights_quantity),</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Weights for PassQuantity (learned from xa90)"</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Weight"</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">las =</span> <span class="dv">2</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassQuantity_raw =</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(<span class="fu">select</span>(., <span class="fu">all_of</span>(pass_vars))) <span class="sc">%*%</span> weights_quantity)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pos =</span> <span class="fu">sapply</span>(<span class="fu">strsplit</span>(<span class="fu">as.character</span>(Pos.x), <span class="st">"[, /-]"</span>), <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Pos) <span class="sc">%&gt;%</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassQuantity_pct =</span> <span class="fu">percent_rank</span>(PassQuantity_raw) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassQuality_pct  =</span> <span class="fu">percent_rank</span>(.data[[xa_var]]) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassAccuracy_pct =</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">percent_rank</span>(.data[[miss_var]])) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>xa_var   <span class="ot">&lt;-</span> <span class="st">"xa90"</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>miss_var <span class="ot">&lt;-</span> <span class="st">"passesratees90"</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>mod_q_diag <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste</span>(xa_var, <span class="st">"~ PassQuantity_raw"</span>)), <span class="at">data =</span> df5)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>df5<span class="sc">$</span>xa_resid_diag <span class="ot">&lt;-</span> <span class="fu">resid</span>(mod_q_diag)</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>df5_diag <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Pos) <span class="sc">%&gt;%</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassQuantity_pct_diag      =</span> <span class="fu">percent_rank</span>(PassQuantity_raw) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassQuality_resid_pct_diag =</span> <span class="fu">percent_rank</span>(xa_resid_diag) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassAccuracy_pct_diag      =</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">percent_rank</span>(.data[[miss_var]])) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>mod_w_diag <span class="ot">&lt;-</span> df5_diag <span class="sc">%&gt;%</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">c</span>(xa_var,</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"PassQuantity_pct_diag"</span>,</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"PassQuality_resid_pct_diag"</span>,</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"PassAccuracy_pct_diag"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>Z_diag <span class="ot">&lt;-</span> <span class="fu">scale</span>(mod_w_diag[, <span class="fu">c</span>(<span class="st">"PassQuantity_pct_diag"</span>,</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"PassQuality_resid_pct_diag"</span>,</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"PassAccuracy_pct_diag"</span>)])</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>y_diag <span class="ot">&lt;-</span> mod_w_diag[[xa_var]]</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>mod_index_diag <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_diag <span class="sc">~</span> Z_diag)</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>beta_diag <span class="ot">&lt;-</span> <span class="fu">coef</span>(mod_index_diag)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(beta_diag) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"quantity_resid"</span>, <span class="st">"quality_resid"</span>, <span class="st">"accuracy_resid"</span>)</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>beta_diag_abs <span class="ot">&lt;-</span> <span class="fu">abs</span>(beta_diag)</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>weights_index_diag_resid <span class="ot">&lt;-</span> beta_diag_abs <span class="sc">/</span> <span class="fu">sum</span>(beta_diag_abs)</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(beta_diag)</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(weights_index_diag_resid)</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>weights_index_final <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">quantity =</span> <span class="fl">0.4</span>, <span class="at">quality =</span> <span class="fl">0.5</span>, <span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Pos) <span class="sc">%&gt;%</span></span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassIndex_weighted_raw =</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>      weights_index_final[<span class="st">"quantity"</span>] <span class="sc">*</span> PassQuantity_pct <span class="sc">+</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>      weights_index_final[<span class="st">"quality"</span>]  <span class="sc">*</span> PassQuality_pct <span class="sc">+</span></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>      weights_index_final[<span class="st">"accuracy"</span>] <span class="sc">*</span> PassAccuracy_pct,</span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassIndex_weighted_pct =</span> <span class="fu">round</span>(<span class="fu">percent_rank</span>(PassIndex_weighted_raw) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>export <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Player, Squad.x, Pos.x, Pos, Comp.x, Min_Playing, PassQuantity_raw, xa90, xa_resid_diag,</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>         PassQuantity_pct, PassQuality_pct, PassAccuracy_pct, PassIndex_weighted_raw,</span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>         PassIndex_weighted_pct) <span class="sc">%&gt;%</span></span>
+<span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PassIndex_weighted_pct))</span>
+<span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv2</span>(export, <span class="st">"PassIndex.csv"</span>,</span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>           <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>top5_passindex <span class="ot">&lt;-</span> df5 <span class="sc">%&gt;%</span></span>
+<span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pos =</span> <span class="fu">factor</span>(Pos, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"GK"</span>, <span class="st">"DF"</span>, <span class="st">"MF"</span>, <span class="st">"FW"</span>))) <span class="sc">%&gt;%</span>  </span>
+<span id="cb6-116"><a href="#cb6-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Pos) <span class="sc">%&gt;%</span></span>
+<span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(PassIndex_weighted_pct, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Pos, <span class="fu">desc</span>(PassIndex_weighted_pct)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>    Pos,</span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>    Player,</span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">Squad =</span> Squad.x,</span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">PassIndex =</span> PassIndex_weighted_pct</span>
+<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>top5_passindex <span class="sc">%&gt;%</span></span>
+<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 5 players by PassIndex for each position group"</span></span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>top5_passindex <span class="sc">%&gt;%</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 5 players by PassIndex for each position group"</span></span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>gt_tbl <span class="ot">&lt;-</span> top5_passindex <span class="sc">%&gt;%</span></span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 5 players by PassIndex for each position group"</span></span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"C:/Users/liloy/Documents/M2/Recherche Stage M2/Scouting dashboard"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a><span class="fu">gtsave</span>(gt_tbl, <span class="at">filename =</span> <span class="st">"C:/Users/liloy/Documents/M2/Recherche Stage M2/Scouting dashboard/top5_passindex.png"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fig-top5-passindex" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-cap="Top 5 players by PassIndex for each position group">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-top5-passindex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src=".png" id="fig-top5-passindex" class="img-fluid figure-img" data-fig-cap="Top 5 players by PassIndex for each position group">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-top5-passindex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+<p><img src="top5_passindex.png" class="img-fluid"></p>
+</section>
+<section id="scope-assumptions-and-limitations-of-the-pass-progression-index" class="level3">
+<h3 class="anchored" data-anchor-id="scope-assumptions-and-limitations-of-the-pass-progression-index">Scope, Assumptions, and Limitations of the Pass Progression Index</h3>
+<p>Despite its practical robustness, the pass-progression index has several structural limitations that should guide interpretation.</p>
+<p>First, the index is strongly exposure-driven: per-90 volumes and xA are mechanically higher in high-possession, high-territory teams, so player scores remain partially confounded by team possession share and tactical environment; a possession-adjusted variant (e.g., progression per fixed number of team possessions or passes) would provide a complementary “danger per unit of possession” view.<br>
+</p>
+<p>Second, anchoring pass-type weights and component calibration to xA may understate valuable progression that restructures play without immediately generating shots (tempo-setting switches, field-tilting circulation, pre-assist entries), which can bias against possession hubs whose role is primarily territorial or connective rather than final-action creation.<br>
+</p>
+<p>Third, the linear OLS weighting and additive aggregation assume constant marginal returns and separability between Quantity, Quality, and Accuracy; in reality, progression value is likely non-linear (e.g., certain high-leverage passes carry disproportionate payoff) and interactive (high volume only converts to value above execution thresholds), so the index may smooth over these effects for interpretability. Further work specifically focused on modelling the mapping between progressive passing actions and game progression would be valuable, as it could justify the use of non-linear, interaction-aware approaches that better reflect football reality than linear relationships when estimating passing progression and constructing future indices.<br>
+</p>
+<p>Fourth, per-90 normalisation measures total contribution over playing time rather than threat per action; a per-pass or per-50-team-pass would answer a different question about passing intent and immediacy of threat and would reorder some profiles, especially among forwards.<br>
+</p>
+<p>Fifth, the four progressive-pass inputs are not mutually exclusive: one action can be both progressive and into the final third, or a cross into the box, so PassQuantity involves partial double counting, which the empirical weights mitigate but cannot fully eliminate.<br>
+</p>
+<p>Sixth, positional percentiles rely on broad cohorts that can mix structurally different roles, notably wing-backs being evaluated within defender pools dominated by centre-backs; this can mechanically advantage high-involvement wide profiles relative to peers whose role is less progression-oriented.<br>
+</p>
+<p>Seventh, cross-league comparability is imperfect because baseline difficulty, tempo, and defensive intensity differ across the observed competitions (e.g., Ligue 1 vs.&nbsp;Premier League), meaning that a given percentile does not necessarily represent the same underlying value across leagues.<br>
+</p>
+<p>Finally, the index does not capture structurally progressive backward or lateral passes that enable third-man combinations and subsequent line-breaking actions; this limitation is common to most event-based value models, including standard expected threats implementations, which typically reward only the pass that directly advances location rather than the preparatory pass that makes progression possible.</p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
